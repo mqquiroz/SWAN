@@ -1,0 +1,53 @@
+$*************HEADING****************************************
+$
+$ 30/09/2016
+$ Grilla 25m
+$ Realizado por: Felipe Lucero
+$
+$***********MODEL STARTUP************************************
+$
+SET NAUTical
+MODE STATionary
+COORD CART
+NUMERIC ACCUR 0.02 0.02 0.02 95.
+$
+$***********MODEL INPUT**************************************
+$
+CGRID REGULAR 74019.78 5835480.484 0.0 25675 18575 1026 742 SECTOR 180 360 60 flow 0.04 msc 33
+$
+INPGRID BOTTOM REGULAR 74019.78 5835480.484 0.0 1026 742 25 25
+READINP BOTTOM -1. 'batg25.bot' 1 0 FREE
+$
+$************INPUT BOUNDARY SPECTRAL CONDITIONS**************
+$
+BOUNdnest1 NEST 'nest2out.dat'
+OFF QUAD
+WCAP
+$
+$************ OUTPUT REQUESTS ******************************
+$
+GROUP 'OUTPUT' SUBGRID 0 1026 0 742
+$X Coordinate
+BLOCK  'OUTPUT' NOHEADER 'X25.mat' LAY-OUT 1 XP
+$Y Coordinate
+BLOCK  'OUTPUT' NOHEADER 'Y25.mat' LAY-OUT 1 YP
+$Depth
+BLOCK  'OUTPUT' NOHEADER 'Z25.mat' LAY-OUT 1 DEPTH
+$Significative Height
+BLOCK  'OUTPUT' NOHEADER 'H25.mat' LAY-OUT 1 HS
+$Mean absolute Wave Period
+BLOCK  'OUTPUT' NOHEADER 'T25.mat' LAY-OUT 1 TMM10
+$Mean Wave Direction
+BLOCK  'OUTPUT' NOHEADER 'D25.mat' LAY-OUT 1 DIR
+$Wave-induced force per unit surface area (gradient of radiation stresses)
+BLOCK  'OUTPUT' NOHEADER 'F25.mat' LAY-OUT 1 FORCE
+$
+$************ ADCP **********************************
+POINTS 'OUTPUT2' 115255 5885460
+TABLE 'OUTPUT2' HEAD 'tabg25.txt' XP YP DEPTH HSIG TMM10 DIR FORCE
+SPECOUT 'OUTPUT2' SPEC2D ABS 'specg25.txt'
+TEST 1,0
+COMPUTE
+STOP
+$
+$
